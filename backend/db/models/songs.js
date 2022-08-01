@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Songs.hasMany(models.Comments, { foreignKey: 'songId', onDelete: 'CASCADE', hooks: true })
       Songs.belongsTo(models.Albums, { foreignKey: 'albumId' })
-      Songs.belongsTo(models.User, { foreignKey: 'userId' })
+      Songs.belongsTo(models.User, { foreignKey: 'userId', as: 'Artist' })
       Songs.belongsToMany(models.Playlists, { foreignkey: 'songId', through: models.PlaylistSongs, otherKey: 'playlistId' })
     }
   }
@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     url: {
+      type: DataTypes.STRING,
+    },
+    description: {
       type: DataTypes.STRING,
     },
     previewImage: {

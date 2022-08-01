@@ -51,8 +51,8 @@ Returns the information about the current user that is logged in.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /session
   * Body: none
 
 * Successful Response
@@ -78,8 +78,8 @@ information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: /login
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -145,8 +145,8 @@ user's information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: /signup
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -235,8 +235,8 @@ Returns all the songs.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/songs'
   * Body: none
 
 * Successful Response
@@ -345,7 +345,7 @@ Returns the details of a song specified by its id.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -417,7 +417,7 @@ Creates and returns a new song.
 
     ```json
     {
-      "message": "Album couldn't be found",
+      "message": "Album does not exist",
       "statusCode": 404
     }
     ```
@@ -489,7 +489,7 @@ Updates and returns an existing song.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -526,7 +526,7 @@ Deletes an existing song.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -649,7 +649,7 @@ Returns the details of an album specified by its id.
 
     ```json
     {
-      "message": "Album couldn't be found",
+      "message": "Album does not exist",
       "statusCode": 404
     }
     ```
@@ -771,7 +771,7 @@ Updates and returns an existing album.
 
     ```json
     {
-      "message": "Album couldn't be found",
+      "message": "Album does not exist",
       "statusCode": 404
     }
     ```
@@ -808,7 +808,7 @@ Deletes an existing album.
 
     ```json
     {
-      "message": "Album couldn't be found",
+      "message": "Album does not exist",
       "statusCode": 404
     }
     ```
@@ -856,7 +856,7 @@ Returns all the comments that belong to a song specified by id.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -920,7 +920,7 @@ Create and return a new comment for a song specified by id.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -985,7 +985,7 @@ Update and return an existing comment.
 
     ```json
     {
-      "message": "Comment couldn't be found",
+      "message": "Comment does not exist",
       "statusCode": 404
     }
     ```
@@ -1022,7 +1022,7 @@ Delete an existing comment.
 
     ```json
     {
-      "message": "Comment couldn't be found",
+      "message": "Comment does not exist",
       "statusCode": 404
     }
     ```
@@ -1061,7 +1061,7 @@ Returns the details of an artist specified by their id.
 
     ```json
     {
-      "message": "Artist couldn't be found",
+      "message": "Artist does not exist",
       "statusCode": 404
     }
     ```
@@ -1108,7 +1108,7 @@ Returns all the songs created by the specified artist.
 
     ```json
     {
-      "message": "Artist couldn't be found",
+      "message": "Artist does not exist",
       "statusCode": 404
     }
     ```
@@ -1153,7 +1153,7 @@ Returns all the albums created by the specified artist.
 
     ```json
     {
-      "message": "Artist couldn't be found",
+      "message": "Artist does not exist",
       "statusCode": 404
     }
     ```
@@ -1197,7 +1197,7 @@ Returns all the playlists created by the specified artist.
 
     ```json
     {
-      "message": "Artist couldn't be found",
+      "message": "Artist does not exist",
       "statusCode": 404
     }
     ```
@@ -1295,7 +1295,7 @@ Add a song to a playlist specified by the playlist's id.
 
     ```json
     {
-      "message": "Playlist couldn't be found",
+      "message": "Playlist does not exist",
       "statusCode": 404
     }
     ```
@@ -1308,7 +1308,7 @@ Add a song to a playlist specified by the playlist's id.
 
     ```json
     {
-      "message": "Song couldn't be found",
+      "message": "Song does not exist",
       "statusCode": 404
     }
     ```
@@ -1361,7 +1361,7 @@ Returns the details of a playlist specified by its id.
 
     ```json
     {
-      "message": "Playlist couldn't be found",
+      "message": "Playlist does not exist",
       "statusCode": 404
     }
     ```
@@ -1427,7 +1427,7 @@ Updates and returns an existing playlist.
 
     ```json
     {
-      "message": "Playlist couldn't be found",
+      "message": "Playlist does not exist",
       "statusCode": 404
     }
     ```
@@ -1464,7 +1464,7 @@ Deletes an existing playlist.
 
     ```json
     {
-      "message": "Playlist couldn't be found",
+      "message": "Playlist does not exist",
       "statusCode": 404
     }
     ```

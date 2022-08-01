@@ -4,22 +4,22 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Albums', [
       {
+        userId: 1,
         name: 'Chaka',
+        description: 'Feel good music',
         previewImage: '',
-        userId: 1
       },
       {
+        userId: 2,
         name: 'Dawn FM',
+        description: 'latest album',
         previewImage: '',
-        userId: 2
       },
     ], {});
   },
 
   async down (queryInterface, Sequelize) {
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Albums', {
-      username: { [Op.in]: ['Chaka', 'Dawn FM'] }
-    }, {});
+    return queryInterface.bulkDelete('Albums', null, {});
   }
 };

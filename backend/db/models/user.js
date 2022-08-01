@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      User.hasMany(models.Comments, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
       User.hasMany(models.Albums, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
+      User.hasMany(models.Comments, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
       User.hasMany(models.Playlists, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
       User.hasMany(models.Songs, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
     }
@@ -79,6 +79,12 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 256]
         }
       },
+      previewImage: {
+        type:DataTypes.STRING
+      },
+      isArtist: {
+        type: DataTypes.BOOLEAN
+       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
@@ -97,10 +103,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       scopes: {
         currentUser: {
-          attributes: { exclude: ["hashedPassword", "username"] }
+          attributes: { exclude: ["hashedPassword", "createdAt", "updatedAt", "isArtist", "previewImage", 'username'] }
         },
         loginUser: {
           attributes: {}
+        },
+        artistDetails: {
+          attributes: { exclude: ["hashedPassword", "createdAt", "updatedAt", "isArtist", "firstName", 'lastName', 'email'] }
         }
       }
     }

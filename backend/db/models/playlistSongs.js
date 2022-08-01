@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PlaylistSongs.init({
-    song_id: DataTypes.INTEGER,
-    playlist_id: DataTypes.INTEGER
+    songId: DataTypes.INTEGER,
+    playlistId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'PlaylistSongs',
