@@ -7,7 +7,7 @@ const { requireAuth } = require("../../utils/auth.js");
 // create a song using album id
 router.post("/:albumId/songs", requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
-  const { name, description, url, image } = req.body;
+  const { title, description, url, image } = req.body;
   const album = await Albums.findByPk(albumId);
 
   if (!album) {
@@ -22,7 +22,7 @@ router.post("/:albumId/songs", requireAuth, async (req, res, next) => {
     const song = await Songs.create({
       userId: req.user.id,
       albumId,
-      name,
+      title,
       description,
       url,
       previewImage: image,
@@ -63,7 +63,7 @@ router.get("/:albumId", async (req, res, next) => {
 
 // edit album
 router.put("/:albumId", requireAuth, async (req, res, next) => {
-  const { name, description, imageUrl } = req.body;
+  const { title, description, imageUrl } = req.body;
   const { albumId } = req.params;
   const editAlbum = await Albums.findByPk(albumId);
 
@@ -74,7 +74,7 @@ router.put("/:albumId", requireAuth, async (req, res, next) => {
 
   if (editAlbum.userId === req.user.id) {
     editAlbum.update({
-      name,
+      title,
       description,
       previewImage: imageUrl,
     });
@@ -107,11 +107,11 @@ router.delete("/:albumId", requireAuth, async (req, res, next) => {
 
 // Creates album
 router.post("/", requireAuth, async (req, res, next) => {
-  const { name, description, image } = req.body;
+  const { title, description, image } = req.body;
 
   const newAlbum = await Albums.create({
     userId: req.user.id,
-    name,
+    title,
     description,
     previewImage: image,
   });

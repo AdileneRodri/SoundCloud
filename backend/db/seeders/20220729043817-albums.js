@@ -5,13 +5,13 @@ module.exports = {
     await queryInterface.bulkInsert('Albums', [
       {
         userId: 1,
-        name: 'Chaka',
+        title: 'Chaka',
         description: 'Feel good music',
         previewImage: '',
       },
       {
         userId: 2,
-        name: 'Dawn FM',
+        title: 'Dawn FM',
         description: 'latest album',
         previewImage: '',
       },

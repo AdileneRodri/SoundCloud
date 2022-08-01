@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Songs.init({
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },

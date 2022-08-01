@@ -57,7 +57,7 @@ router.get("/:songId", async (req, res, next) => {
   const selectedSong = await Songs.findOne({
     where: { id: songId },
     include: [
-      { model: Albums, attributes: ["id", "name", "previewImage"] },
+      { model: Albums, attributes: ["id", "title", "previewImage"] },
       {
         as: "Artist",
         model: User,
@@ -79,7 +79,7 @@ router.get("/:songId", async (req, res, next) => {
 
 // edit song by id
 router.put('/:songId', requireAuth, async (req, res, next) => {
-    const { name, description, url, image } = req.body;
+    const { title, description, url, image } = req.body;
     const { songId } = req.params;
     const editSong = await Songs.findByPk(songId);
 
@@ -90,7 +90,7 @@ router.put('/:songId', requireAuth, async (req, res, next) => {
 
    if(editSong.userId === req.user.id){
         editSong.update({
-            name, 
+            title, 
             description, 
             url, 
             previewImage: image
