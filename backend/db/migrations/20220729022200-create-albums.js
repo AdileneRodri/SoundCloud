@@ -18,7 +18,7 @@ module.exports = {
         }
       },
       previewImage: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
