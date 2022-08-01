@@ -3,22 +3,20 @@ const albumsRouter = require('./albums.js');
 const artistRouter = require('./artists.js');
 const commentsRouter = require('./comments.js');
 const currentUserRouter = require('./currentUser.js');
-const loginRouter = require('./login.js');
 const playlistsRouter = require('./playlists.js');
 const sessionRouter = require('./session.js');
-const signupRouter = require('./signup.js');
+const usersRouter = require('./users.js');
 const songsRouter = require('./songs.js');
+const { restoreUser } = require("../../utils/auth.js");
 
 // Connect restoreUser middleware to the API router
   // If current user session is valid, set req.user to the user in the database
   // If current user session is not valid, set req.user to null
-// router.use(restoreUser);
+router.use(restoreUser);
 
 router.use('/session', sessionRouter);
 
-router.use('/login', loginRouter);
-
-router.use('/signup', signupRouter);
+router.use('/users', usersRouter);
 
 router.use('/artists', artistRouter);
 
