@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { requireAuth } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { User, Songs, Albums, Comments } = require("../../db/models");
 
 
@@ -30,7 +30,7 @@ router.get("/:songId/comments", async (req, res, next) => {
 
 // add comment by song id
 router.post('/:songId/comments', 
-    requireAuth,
+restoreUser, requireAuth,
     async (req, res, next) => {
         const { comment } = req.body;
         const { songId } = req.params;
@@ -78,7 +78,7 @@ router.get("/:songId", async (req, res, next) => {
 });
 
 // edit song by id
-router.put('/:songId', requireAuth, async (req, res, next) => {
+router.put('/:songId', restoreUser, requireAuth, async (req, res, next) => {
     const { title, description, url, image } = req.body;
     const { songId } = req.params;
     const editSong = await Songs.findByPk(songId);
@@ -102,7 +102,7 @@ router.put('/:songId', requireAuth, async (req, res, next) => {
 });
 
 // deletes song by id
-router.delete("/:songId", requireAuth, async (req, res, next) => {
+router.delete("/:songId", restoreUser, requireAuth, async (req, res, next) => {
   const { songId } = req.params;
   const selectedSong = await Songs.findByPk(songId);
 

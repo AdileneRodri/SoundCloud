@@ -2,7 +2,7 @@ const router = require('express').Router();
 const albumsRouter = require('./albums.js');
 const artistRouter = require('./artists.js');
 const commentsRouter = require('./comments.js');
-const currentUserRouter = require('./currentUser.js');
+// const currentUserRouter = require('./currentUser.js');
 const playlistsRouter = require('./playlists.js');
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
@@ -20,7 +20,7 @@ router.use('/users', usersRouter);
 
 router.use('/artists', artistRouter);
 
-router.use('/currentUser', currentUserRouter);
+// router.use('/currentUser', currentUserRouter);
 
 router.use('/songs', songsRouter);
 
@@ -34,12 +34,12 @@ router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
 });
 
-router.delete(
-  '/logout',
-  (_req, res) => {
-    res.clearCookie('token');
-    return res.json({ message: 'success' });
-  }
-);
+// router.delete(
+//   '/logout',
+//   (_req, res) => {
+//     res.clearCookie('token');
+//     return res.json({ message: 'success' });
+//   }
+// );
 
 module.exports = router;

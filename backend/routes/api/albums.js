@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const { User, Songs, Albums } = require("../../db/models");
-const { requireAuth } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 
 // create a song using album id
-router.post("/:albumId/songs", requireAuth, async (req, res, next) => {
+router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
   const { title, description, url, image } = req.body;
   const album = await Albums.findByPk(albumId);
@@ -62,7 +62,7 @@ router.get("/:albumId", async (req, res, next) => {
 });
 
 // edit album
-router.put("/:albumId", requireAuth, async (req, res, next) => {
+router.put("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
   const { title, description, imageUrl } = req.body;
   const { albumId } = req.params;
   const editAlbum = await Albums.findByPk(albumId);
@@ -87,7 +87,7 @@ router.put("/:albumId", requireAuth, async (req, res, next) => {
 });
 
 // deletes an album
-router.delete("/:albumId", requireAuth, async (req, res, next) => {
+router.delete("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
   const selectedAlbum = await Albums.findByPk(albumId);
 
@@ -106,7 +106,7 @@ router.delete("/:albumId", requireAuth, async (req, res, next) => {
 });
 
 // Creates album
-router.post("/", requireAuth, async (req, res, next) => {
+router.post("/", restoreUser, requireAuth, async (req, res, next) => {
   const { title, description, image } = req.body;
 
   const newAlbum = await Albums.create({

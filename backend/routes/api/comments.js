@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { requireAuth } = require("../../utils/auth.js");
+const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { Comments } = require("../../db/models");
 
 // edit comment
-router.put('/:commentId', requireAuth, async (req, res, next) => {
+router.put('/:commentId', restoreUser, requireAuth, async (req, res, next) => {
     const { body } = req.body;
     const { commentId } = req.params;
     const editComment = await Comments.findByPk(commentId);
@@ -36,7 +36,7 @@ router.put('/:commentId', requireAuth, async (req, res, next) => {
 });
 
 // deletes comment by id
-router.delete("/:commentId", requireAuth, async (req, res, next) => {
+router.delete("/:commentId", restoreUser, requireAuth, async (req, res, next) => {
   const { commentId } = req.params;
   const deleteComment = await Comments.findByPk(commentId);
 

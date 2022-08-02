@@ -1,7 +1,7 @@
 const express = require("express");
 
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { setTokenCookie, restoreUser, requireAuth } = require("../../utils/auth");
+const { User, Songs, Albums, Playlists } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
@@ -24,26 +24,72 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
-router.post("/", validateSignup, async (req, res) => {
-  const { email, password, username } = req.body;
-  const user = await User.signup({ email, username, password });
-
-  await setTokenCookie(res, user);
-
-  return res.json({
-    user,
-  });
+// Get all Playlists created by Current User
+router.get('/playlists',
+restoreUser, requireAuth,
+    async (req, res, next) => {
+        const playlists = await Playlists.findAll({
+            where: {
+                userId: req.user.id
+            }
+        });
+        return res.json({"Playlists": playlists});
 });
 
-router.post("/", async (req, res) => {
-  const { email, password, username } = req.body;
-  const user = await User.signup({ email, username, password });
+// Get all Albums created by Current User
+router.get('/albums',
+restoreUser, requireAuth,
+    async (req, res, next) => {
+        const albums = await Albums.findAll({
+            where: {
+                userId: req.user.id
+            }
+        });
+        return res.json({"Albums": albums});
+});
 
-  await setTokenCookie(res, user);
+// Get all Songs created by Current User
+router.get('/songs',
+restoreUser, requireAuth,
+    async (req, res, next) => {
+        const songs = await Songs.findAll({
+            where: {
+                userId: req.user.id
+            }
+        });
+        return res.json({"Songs": songs});
+});
 
-  return res.json({
-    user,
-  });
+// signUp
+router.post(
+  '/',
+  validateSignup,
+  async (req, res) => {
+    const { email, firstName, lastName, password, username } = req.body;
+    const user = await User.signup({ email, firstName, lastName, username, password });
+
+    await setTokenCookie(res, user);
+
+    return res.json({
+      user,
+    });
+  }
+);
+
+
+// Get current user
+router.get("/", restoreUser, requireAuth, async (req, res, next) => {
+  const currentUser = await User.getCurrentUserById(req.user.id);
+
+  const jwtToken = await setTokenCookie(res, currentUser);
+
+  if (jwtToken) {
+    currentUser.dataValues.token = jwtToken;
+  } else {
+    currentUser.dataValues.token = "";
+  }
+
+  return res.json(currentUser);
 });
 
 module.exports = router;
