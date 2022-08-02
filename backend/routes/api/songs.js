@@ -124,6 +124,43 @@ router.delete("/:songId", restoreUser, requireAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   const allSongs = await Songs.findAll();
 
+  let { page, size, title, createdAt } = req.query;
+  if (page) page = parseInt(page);
+  if (size) size = parseInt(size);
+
+  let where = {}; // search filters (title, createdAt)
+  let pag = {};
+
+  if (!page) page = 0;
+  if (!size) size = 20;
+
+  if (page > 10) {
+    page = 0;
+  } else {
+    page = page;
+  }
+
+  if (size > 20) {
+    size = 20;
+  } else {
+    size = size;
+  }
+
+  if (page > 0) {
+    pag.limit = size;
+    pag.offset = size * (page - 1);
+  } else {
+    pag.limit = size;
+  }
+
+  if (isProduction) {
+    if (title) where.title = { [Op.iLike]: `%${title}%` };
+    if (createdAt) where.createdAt = createdAt;
+  } else {
+    if (title) where.title = { [Op.like]: `%${title}%` };
+    if (createdAt) where.createdAt = createdAt;
+  }
+
   return res.json({ Songs: allSongs });
 });
 
