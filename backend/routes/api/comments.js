@@ -6,7 +6,7 @@ const { Comments } = require("../../db/models");
 
 // edit comment
 router.put('/:commentId', restoreUser, requireAuth, async (req, res, next) => {
-    const { body } = req.body;
+    const { comment } = req.body;
     const { commentId } = req.params;
     const editComment = await Comments.findByPk(commentId);
 
@@ -15,7 +15,7 @@ router.put('/:commentId', restoreUser, requireAuth, async (req, res, next) => {
         return res.json({ "message": "Comment does not exist", "statusCode": 404 });
     }
 
-   if(!body){
+   if(!comment){
     res.status(400);
     return res.json({
         "message": "Validation Error",
@@ -27,7 +27,7 @@ router.put('/:commentId', restoreUser, requireAuth, async (req, res, next) => {
    }
    if(editComment.userId === req.user.id){
         editComment.update({
-            body
+            comment
         });
         return res.json(editComment);
     } else {
