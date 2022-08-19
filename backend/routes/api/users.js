@@ -61,6 +61,7 @@ restoreUser, requireAuth,
 });
 
 // signUp
+// change response body, reference readme
 router.post(
   '/',
   validateSignup,
