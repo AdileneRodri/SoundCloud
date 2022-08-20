@@ -146,7 +146,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /api/user (update to signup on routes)
+  * URL: /api/user/signUp
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -236,7 +236,7 @@ Returns all the songs.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: '/songs'
+  * URL: '/api/songs'
   * Body: none
 
 * Successful Response
@@ -269,8 +269,8 @@ Returns all the songs created by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/user/songs'
   * Body: none
 
 * Successful Response
@@ -303,8 +303,8 @@ Returns the details of a song specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/songs/:songId'
   * Body: none
 
 * Successful Response
@@ -537,8 +537,8 @@ Returns all the Albums.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /api/albums
   * Body: none
 
 * Successful Response
@@ -569,8 +569,8 @@ Returns all the Albums created by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/user/albums'
   * Body: none
 
 * Successful Response
@@ -601,8 +601,8 @@ Returns the details of an album specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/albums/:albumId'
   * Body: none
 
 * Successful Response
@@ -819,8 +819,8 @@ Returns all the comments that belong to a song specified by id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/songs/:songId/comments'
   * Body: none
 
 * Successful Response
@@ -1033,8 +1033,8 @@ Returns the details of an artist specified by their id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /api/artists/:artistId
   * Body: none
 
 * Successful Response
@@ -1072,8 +1072,8 @@ Returns all the songs created by the specified artist.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/artists/:artistId/songs'
   * Body: none
 
 * Successful Response
@@ -1119,8 +1119,8 @@ Returns all the albums created by the specified artist.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/artists/:artistId/albums'
   * Body: none
 
 * Successful Response
@@ -1164,8 +1164,8 @@ Returns all the playlists created by the specified artist.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/artists/:artistId/playlists'
   * Body: none
 
 * Successful Response
@@ -1319,8 +1319,8 @@ Returns the details of a playlist specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/playlists/:playlistId'
   * Body: none
 
 * Successful Response
@@ -1475,8 +1475,8 @@ Returns all the playlists created by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/user/playlists'
   * Body: none
 
 * Successful Response

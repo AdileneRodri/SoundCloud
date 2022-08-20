@@ -77,7 +77,7 @@ router.get('/:artistId', async (req, res, next) => {
     const { artistId } = req.params;
     const artist = await User.scope("artistDetails").findOne({
         where: { id: artistId}, 
-        include: [{ model: Albums }, { model: Songs, attributes: ['previewImage'] }]
+        include: [{ model: Albums }],
     });
     
     if(!artist){

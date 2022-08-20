@@ -6,12 +6,12 @@ module.exports = {
       {
         userId: 1,
         songId: 1,
-        comment: "I love this song!",
+        body: "I love this song!",
       },
       {
         userId: 2,
         songId: 2,
-        comment: "Love The Weeknd <3",
+        body: "Love The Weeknd <3",
       },
     ], {});
   },

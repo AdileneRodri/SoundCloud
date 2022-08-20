@@ -6,7 +6,7 @@ module.exports = {
       {
         userId: 1,
         albumId: 1,
-        title: "I'm Every Women",
+        title: "I'm Every Woman",
         url: '',
         description: 'favorite songs',
         previewImage: '',

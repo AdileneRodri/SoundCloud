@@ -8,19 +8,19 @@ const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
 const validateSignup = [
-  check("email")
-    .exists({ checkFalsy: true })
-    .isEmail()
-    .withMessage("Please provide a valid email."),
-  check("username")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage("Please provide a username with at least 4 characters."),
-  check("username").not().isEmail().withMessage("Username cannot be an email."),
-  check("password")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage("Password must be 6 characters or more."),
+  // check("email")
+  //   .exists({ checkFalsy: true })
+  //   .isEmail()
+  //   .withMessage("Please provide a valid email."),
+  // check("username")
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 4 })
+  //   .withMessage("Please provide a username with at least 4 characters."),
+  // check("username").not().isEmail().withMessage("Username cannot be an email."),
+  // check("password")
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 6 })
+  //   .withMessage("Password must be 6 characters or more."),
   handleValidationErrors,
 ];
 
@@ -60,19 +60,57 @@ restoreUser, requireAuth,
         return res.json({"Songs": songs});
 });
 
-// signUp
-// change response body, reference readme
+// signUp User
 router.post(
-  '/',
+  '/signUp',
   validateSignup,
-  async (req, res) => {
+  async (req, res, next) => {
     const { email, firstName, lastName, password, username } = req.body;
-    const user = await User.signup({ email, firstName, lastName, username, password });
+    let checkEmailExists = await User.findOne({ where: { email: email}})
+    let checkUsernameExists = await User.findOne({ where: { username: username}})
 
-    await setTokenCookie(res, user);
+    if (!email || !username || !firstName || !lastName) {
+      const err = new Error("Login failed");
+      err.status = 400;
+      err.message = "User already exists",
+      err.errors = {
+        email: "Invalid email",
+        username: "Validation error",
+        firstName: "First Name is required",
+        lastName: "Last Name is required"
+      };
+      return res.status(403).json({ message: err.message, statusCode: err.status, errors: err.errors });
+    }
+    if (checkEmailExists) {
+      const err = new Error("Login failed");
+      err.status = 403;
+      err.message = "User already exists",
+      err.errors = {
+        email: "User with that email already exists"
+      };
+      return res.status(403).json({ message: err.message, statusCode: err.status, errors: err.errors });
+    }
+    if (checkUsernameExists) {
+      const err = new Error("Login failed");
+      err.status = 403;
+      err.message = "User already exists",
+      err.errors = {
+        username: "User with that username already exists"
+      };
+      return res.status(403).json({ message: err.message, statusCode: err.status, errors: err.errors });
+    }
+    
+    const user = await User.signup({ email, firstName, lastName, username, password });
+    let userData = user.toSafeObject();
+    const accessToken = setTokenCookie(res, user);
 
     return res.json({
-      user,
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      username: userData.username,
+      token: accessToken,
     });
   }
 );

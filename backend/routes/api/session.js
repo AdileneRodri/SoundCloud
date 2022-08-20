@@ -10,8 +10,7 @@ const validateLogin = [
   handleValidationErrors,
 ];
 
-// Log in user
-// modify response body refer to readme
+// Log in users
 router.post("/login", validateLogin, async (req, res, next) => {
   const { credential, password } = req.body;
   const user = await User.login({ credential, password });

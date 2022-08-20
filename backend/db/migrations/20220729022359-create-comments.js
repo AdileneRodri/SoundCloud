@@ -20,7 +20,7 @@ module.exports = {
           model: 'Songs'
         }
       },
-      comment: {
+      body: {
         type: Sequelize.TEXT
       },
       createdAt: {

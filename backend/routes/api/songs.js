@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const { environment } = require("../../config");
+const isProduction = environment === "production";
 
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { User, Songs, Albums, Comments } = require("../../db/models");
