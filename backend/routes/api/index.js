@@ -16,7 +16,7 @@ router.use(restoreUser);
 
 router.use('/currentUser', sessionRouter);
 
-router.use('/user', usersRouter);
+router.use('/users', usersRouter);
 
 router.use('/artists', artistRouter);
 

@@ -146,7 +146,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /api/user/signUp
+  * URL: /api/users/signUp
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -228,7 +228,7 @@ user's information.
       }
     }
     ```
-
+<!-- add song urls to seeder from cloudinary to get links -->
 ## Get all Songs
 
 Returns all the songs.
@@ -270,7 +270,7 @@ Returns all the songs created by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: '/api/user/songs'
+  * URL: '/api/users/songs'
   * Body: none
 
 * Successful Response
@@ -570,7 +570,7 @@ Returns all the Albums created by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: '/api/user/albums'
+  * URL: '/api/users/albums'
   * Body: none
 
 * Successful Response
@@ -1312,7 +1312,7 @@ Add a song to a playlist specified by the playlist's id.
       "statusCode": 404
     }
     ```
-
+<!-- Test on heroku -->
 ## Get details of a Playlist from an id
 
 Returns the details of a playlist specified by its id.
@@ -1476,7 +1476,7 @@ Returns all the playlists created by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: '/api/user/playlists'
+  * URL: '/api/users/playlists'
   * Body: none
 
 * Successful Response
