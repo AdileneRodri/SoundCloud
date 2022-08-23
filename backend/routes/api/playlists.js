@@ -88,6 +88,7 @@ router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
 
 // get playlist by id
 router.get("/:playlistId", async (req, res, next) => {
+  console.log(await Playlists.findAll(), "Hi playlist")
   const { playlistId } = req.params;
   const playlist = await Playlists.findOne({
     where: { id: playlistId },
