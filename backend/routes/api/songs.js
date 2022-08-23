@@ -7,6 +7,72 @@ const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const { User, Songs, Albums, Comments } = require("../../db/models");
 
 
+// delete comment
+router.delete(
+  "/:songId/comments/:commentId",
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { commentId } = req.params;
+    const deleteComment = await Comments.findByPk(commentId);
+
+    if (!deleteComment) {
+      res.status(404);
+      return res.json({ message: "Comment does not exist", statusCode: 404 });
+    }
+
+    if (deleteComment.userId === req.user.id) {
+      await deleteComment.destroy();
+      return res.json({ message: "Successfully deleted", statusCode: 200 });
+    } else {
+      return res.json({
+        message:
+          "A comment can only be deleted by the user who created the comment",
+      });
+    }
+  }
+);
+
+// edit comment
+router.put(
+  "/:songId/comments/:commentId",
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { comment } = req.body;
+    const { commentId } = req.params;
+    const editComment = await Comments.findByPk(commentId);
+
+    if (!editComment) {
+      res.status(404);
+      return res.json({ message: "Comment does not exist", statusCode: 404 });
+    }
+
+    if (!comment) {
+      res.status(400);
+      return res.json({
+        message: "Validation Error",
+        statusCode: 400,
+        errors: {
+          body: "Comment body text is required",
+        },
+      });
+    }
+
+    if (editComment.userId === req.user.id) {
+      editComment.update({
+        body: comment,
+      });
+      return res.json(editComment);
+    } else {
+      return res.json({
+        message:
+          "A comment can only be edited by the user who created the comment",
+      });
+    }
+  }
+);
+
 // get comments by song Id
 router.get("/:songId/comments", async (req, res, next) => {
   const { songId } = req.params;
@@ -31,27 +97,45 @@ router.get("/:songId/comments", async (req, res, next) => {
 });
 
 // add comment by song id
-router.post('/:songId/comments', 
-restoreUser, requireAuth,
-    async (req, res, next) => {
-        const { comment } = req.body;
-        const { songId } = req.params;
-        const selectedSong = await Songs.findByPk(songId);
+router.post(
+  "/:songId/comments",
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { comment } = req.body;
+    const { songId } = req.params;
+    const selectedSong = await Songs.findByPk(songId);
 
-        if(!selectedSong){
-            res.status(404);
-            return res.json({ "message": "Song does not exist", "statusCode": 404 });
-        }
+    if (!selectedSong) {
+      res.status(404);
+      return res.json({ message: "Song does not exist", statusCode: 404 });
+    }
 
-        const createdComment = await Comments.create({
-            userId: req.user.id,
-            songId, 
-            comment
+    if (!comment) {
+      const err = new Error("Validation Error");
+      err.status = 400;
+      err.message = "Validation Error";
+      err.errors = {
+        body: "Comment body text is required",
+      };
+      return res
+        .status(400)
+        .json({
+          message: err.message,
+          statusCode: err.status,
+          errors: err.errors,
         });
+    }
 
-        return res.json(createdComment);
-});
+    const createdComment = await Comments.create({
+      userId: req.user.id,
+      songId,
+      body: comment,
+    });
 
+    return res.json(createdComment);
+  }
+);
 
 // get song by id
 router.get("/:songId", async (req, res, next) => {
@@ -80,27 +164,46 @@ router.get("/:songId", async (req, res, next) => {
 });
 
 // edit song by id
-router.put('/:songId', restoreUser, requireAuth, async (req, res, next) => {
-    const { title, description, url, image } = req.body;
-    const { songId } = req.params;
-    const editSong = await Songs.findByPk(songId);
+router.put("/:songId", restoreUser, requireAuth, async (req, res, next) => {
+  const { title, description, url, image } = req.body;
+  const { songId } = req.params;
+  const editSong = await Songs.findByPk(songId);
 
-    if(!editSong){
-        res.status(404);
-        return res.json({ "message": "Song does not exist", "statusCode": 404 });
-    }
+  if (!editSong) {
+    res.status(404);
+    return res.json({ message: "Song does not exist", statusCode: 404 });
+  }
 
-   if(editSong.userId === req.user.id){
-        editSong.update({
-            title, 
-            description, 
-            url, 
-            previewImage: image
-        });
-        return res.json(editSong)
-    } else {
-        return res.json({"message": "A song can only be updated by the user who created the song"});
-    }
+  if (!title || !url) {
+    const err = new Error("Validation Error");
+    err.status = 400;
+    err.message = "Validation Error";
+    err.errors = {
+      title: "Album title is required",
+      url: "Audio is required",
+    };
+    return res
+      .status(400)
+      .json({
+        message: err.message,
+        statusCode: err.status,
+        errors: err.errors,
+      });
+  }
+
+  if (editSong.userId === req.user.id) {
+    editSong.update({
+      title,
+      description,
+      url,
+      previewImage: image,
+    });
+    return res.json(editSong);
+  } else {
+    return res.json({
+      message: "A song can only be updated by the user who created the song",
+    });
+  }
 });
 
 // deletes song by id

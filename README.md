@@ -357,8 +357,8 @@ Creates and returns a new song.
 * Require Authentication: true
 * Require proper authorization: Album must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: 'api/albums/:albumId/songs'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -429,8 +429,8 @@ Updates and returns an existing song.
 * Require Authentication: true
 * Require proper authorization: Song must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: '/api/songs/:songId'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -501,8 +501,8 @@ Deletes an existing song.
 * Require Authentication: true
 * Require proper authorization: Song must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: '/api/songs/:songId'
   * Body: none
 
 * Successful Response
@@ -660,8 +660,8 @@ Creates and returns a new album.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: '/api/albums'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -715,8 +715,8 @@ Updates and returns an existing album.
 * Require Authentication: true
 * Require proper authorization: Album must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: '/api/albums/:albumId'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -783,8 +783,8 @@ Deletes an existing album.
 * Require Authentication: true
 * Require proper authorization: Album must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: '/api/albums/:albumId'
   * Body: none
 
 * Successful Response
@@ -867,8 +867,8 @@ Create and return a new comment for a song specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: '/api/songs/:songId/comments'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -932,8 +932,8 @@ Update and return an existing comment.
 * Require Authentication: true
 * Require proper authorization: Comment must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: '/api/songs/:songId/comments/:commentId'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -997,8 +997,8 @@ Delete an existing comment.
 * Require Authentication: true
 * Require proper authorization: Comment must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: '/api/songs/:songId/comments/:commentId'
   * Body: none
 
 * Successful Response

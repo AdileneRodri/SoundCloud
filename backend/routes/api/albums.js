@@ -9,13 +9,24 @@ router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) 
   const { albumId } = req.params;
   const { title, description, url, image } = req.body;
   const album = await Albums.findByPk(albumId);
+  
+    if (!album) {
+      res.status(404);
+      return res.json({
+        message: "Album does not exist",
+        statusCode: 404,
+      });
+    }
 
-  if (!album) {
-    res.status(404);
-    return res.json({
-      message: "Album does not exist",
-      statusCode: 404,
-    });
+  if(!title || !url) {
+    const err = new Error("Validation Error");
+    err.status = 400;
+    err.message = "Validation Error";
+    err.errors = {
+      title: "Album title is required",
+      url: "Audio is required"
+    }
+    return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
   }
 
   if (album.userId === req.user.id) {
@@ -67,6 +78,16 @@ router.put("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
   const editAlbum = await Albums.findByPk(albumId);
 
+  if (!title) {
+    const err = new Error("Validation Error");
+    err.status = 400;
+    err.message = "Validation Error";
+    err.errors = {
+      title: "Album title is required"
+    }
+    return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
+  }
+
   if (!editAlbum) {
     res.status(404);
     return res.json({ message: "Album does not exist", statusCode: 404 });
@@ -107,13 +128,23 @@ router.delete("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
 
 // Creates album
 router.post("/", restoreUser, requireAuth, async (req, res, next) => {
-  const { title, description, image } = req.body;
+  const { title, description, previewImage } = req.body;
+
+  if (!title) {
+    const err = new Error("Validation Error");
+    err.status = 400;
+    err.message = "Validation Error";
+    err.errors = {
+      title: "Album title is required"
+    }
+    return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
+  }
 
   const newAlbum = await Albums.create({
     userId: req.user.id,
     title,
     description,
-    previewImage: image,
+    previewImage
   });
 
   return res.json(newAlbum);
