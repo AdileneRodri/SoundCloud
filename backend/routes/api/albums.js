@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { User, Songs, Albums } = require("../../db/models");
+const { User, Song, Album } = require("../../db/models");
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
 
 // create a song using album id
 router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
   const { title, description, url, image } = req.body;
-  const album = await Albums.findByPk(albumId);
+  const album = await Album.findByPk(albumId);
   
     if (!album) {
       res.status(404);
@@ -30,7 +30,7 @@ router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) 
   }
 
   if (album.userId === req.user.id) {
-    const song = await Songs.create({
+    const song = await Song.create({
       userId: req.user.id,
       albumId,
       title,
@@ -49,7 +49,7 @@ router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) 
 router.get("/:albumId", async (req, res, next) => {
   const { albumId } = req.params;
 
-  const album = await Albums.findOne({
+  const album = await Album.findOne({
     where: { id: albumId },
     include: [
       {
@@ -57,7 +57,7 @@ router.get("/:albumId", async (req, res, next) => {
         model: User,
         attributes: ["id", "username", "previewImage"],
       },
-      { model: Songs },
+      { model: Song },
     ],
   });
 
@@ -76,7 +76,7 @@ router.get("/:albumId", async (req, res, next) => {
 router.put("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
   const { title, description, imageUrl } = req.body;
   const { albumId } = req.params;
-  const editAlbum = await Albums.findByPk(albumId);
+  const editAlbum = await Album.findByPk(albumId);
 
   if (!title) {
     const err = new Error("Validation Error");
@@ -110,7 +110,7 @@ router.put("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
 // deletes an album
 router.delete("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
-  const selectedAlbum = await Albums.findByPk(albumId);
+  const selectedAlbum = await Album.findByPk(albumId);
 
   if (!selectedAlbum) {
     res.status(404);
@@ -140,7 +140,7 @@ router.post("/", restoreUser, requireAuth, async (req, res, next) => {
     return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
   }
 
-  const newAlbum = await Albums.create({
+  const newAlbum = await Album.create({
     userId: req.user.id,
     title,
     description,
@@ -152,8 +152,8 @@ router.post("/", restoreUser, requireAuth, async (req, res, next) => {
 
 // Gets all albums
 router.get("/", async (req, res, next) => {
-  const allAlbums = await Albums.findAll();
-  return res.json({ Albums: allAlbums });
+  const allAlbums = await Album.findAll();
+  return res.json({ Album: allAlbums });
 });
 
 module.exports = router;

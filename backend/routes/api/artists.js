@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { Op } = require("sequelize");
 
-const { User, Songs, Albums, Playlists } = require('../../db/models');
+const { User, Song, Album, Playlist } = require('../../db/models');
 
 
 
@@ -21,7 +21,7 @@ async (req, res, next) => {
             "statusCode": 404
         });
     }
-    const artistPlaylists = await Playlists.findAll({
+    const artistPlaylists = await Playlist.findAll({
         where: {
             userId: artistId
         }
@@ -43,12 +43,12 @@ async (req, res, next) => {
             "statusCode": 404
         });
     }
-    const artistAlbums = await Albums.findAll({
+    const artistAlbums = await Album.findAll({
         where: {
             userId: artistId
         }
     });
-    return res.json({"Albums": artistAlbums});
+    return res.json({"Album": artistAlbums});
 });
 
 // Get all songs from artist based on id
@@ -64,7 +64,7 @@ async (req, res, next) => {
             "statusCode": 404
         });
     }
-    const artistSongs = await Songs.findAll({
+    const artistSongs = await Song.findAll({
         where: {
             userId: artistId
         }
@@ -77,7 +77,7 @@ router.get('/:artistId', async (req, res, next) => {
     const { artistId } = req.params;
     const artist = await User.scope("artistDetails").findOne({
         where: { id: artistId}, 
-        include: [{ model: Albums }],
+        include: [{ model: Album }],
     });
     
     if(!artist){
@@ -88,15 +88,15 @@ router.get('/:artistId', async (req, res, next) => {
         });
     }
     
-    if(artist.dataValues.Albums){
-        artist.dataValues.totalAlbums = artist.dataValues.Albums.length;
+    if(artist.dataValues.Album){
+        artist.dataValues.totalAlbums = artist.dataValues.Album.length;
     } else {
         artist.dataValues.totalAlbums = 0;
     }
-    delete artist.dataValues.Albums;
+    delete artist.dataValues.Album;
     
-    if(artist.dataValues.Songs){
-    artist.dataValues.totalSongs = artist.dataValues.Songs.length
+    if(artist.dataValues.Song){
+    artist.dataValues.totalSongs = artist.dataValues.Song.length
     } else {
         artist.dataValues.totalSongs = 0;
     }

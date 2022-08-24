@@ -4,7 +4,7 @@ const { environment } = require("../../config");
 const isProduction = environment === "production";
 
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
-const { User, Songs, Albums, Comments } = require("../../db/models");
+const { User, Song, Album, Comment } = require("../../db/models");
 
 
 // delete comment
@@ -14,7 +14,7 @@ router.delete(
   requireAuth,
   async (req, res, next) => {
     const { commentId } = req.params;
-    const deleteComment = await Comments.findByPk(commentId);
+    const deleteComment = await Comment.findByPk(commentId);
 
     if (!deleteComment) {
       res.status(404);
@@ -41,7 +41,7 @@ router.put(
   async (req, res, next) => {
     const { comment } = req.body;
     const { commentId } = req.params;
-    const editComment = await Comments.findByPk(commentId);
+    const editComment = await Comment.findByPk(commentId);
 
     if (!editComment) {
       res.status(404);
@@ -76,14 +76,14 @@ router.put(
 // get comments by song Id
 router.get("/:songId/comments", async (req, res, next) => {
   const { songId } = req.params;
-  const song = await Songs.findByPk(songId);
+  const song = await Song.findByPk(songId);
 
   if (!song) {
     res.status(404);
     return res.json({ message: "Song does not exist", statusCode: 404 });
   }
 
-  const allComments = await Comments.findAll({
+  const allComments = await Comment.findAll({
     where: { songId },
     include: [
       {
@@ -93,7 +93,7 @@ router.get("/:songId/comments", async (req, res, next) => {
     ],
   });
 
-  return res.json({ Comments: allComments });
+  return res.json({ Comment: allComments });
 });
 
 // add comment by song id
@@ -104,7 +104,7 @@ router.post(
   async (req, res, next) => {
     const { comment } = req.body;
     const { songId } = req.params;
-    const selectedSong = await Songs.findByPk(songId);
+    const selectedSong = await Song.findByPk(songId);
 
     if (!selectedSong) {
       res.status(404);
@@ -127,7 +127,7 @@ router.post(
         });
     }
 
-    const createdComment = await Comments.create({
+    const createdComment = await Comment.create({
       userId: req.user.id,
       songId,
       body: comment,
@@ -140,10 +140,10 @@ router.post(
 // get song by id
 router.get("/:songId", async (req, res, next) => {
   const { songId } = req.params;
-  const selectedSong = await Songs.findOne({
+  const selectedSong = await Song.findOne({
     where: { id: songId },
     include: [
-      { model: Albums, attributes: ["id", "title", "previewImage"] },
+      { model: Album, attributes: ["id", "title", "previewImage"] },
       {
         as: "Artist",
         model: User,
@@ -167,7 +167,7 @@ router.get("/:songId", async (req, res, next) => {
 router.put("/:songId", restoreUser, requireAuth, async (req, res, next) => {
   const { title, description, url, image } = req.body;
   const { songId } = req.params;
-  const editSong = await Songs.findByPk(songId);
+  const editSong = await Song.findByPk(songId);
 
   if (!editSong) {
     res.status(404);
@@ -209,7 +209,7 @@ router.put("/:songId", restoreUser, requireAuth, async (req, res, next) => {
 // deletes song by id
 router.delete("/:songId", restoreUser, requireAuth, async (req, res, next) => {
   const { songId } = req.params;
-  const selectedSong = await Songs.findByPk(songId);
+  const selectedSong = await Song.findByPk(songId);
 
   if (!selectedSong) {
     res.status(404);
@@ -227,7 +227,7 @@ router.delete("/:songId", restoreUser, requireAuth, async (req, res, next) => {
 
 // get all songs
 router.get("/", async (req, res, next) => {
-  const allSongs = await Songs.findAll();
+  const allSongs = await Song.findAll();
 
   let { page, size, title, createdAt } = req.query;
   if (page) page = parseInt(page);
@@ -266,7 +266,7 @@ router.get("/", async (req, res, next) => {
     if (createdAt) where.createdAt = createdAt;
   }
 
-  return res.json({ Songs: allSongs });
+  return res.json({ Song: allSongs });
 });
 
 module.exports = router;

@@ -4,16 +4,16 @@ const router = express.Router();
 const { restoreUser, requireAuth } = require("../../utils/auth.js");
 const {
   User,
-  Songs,
+  Song,
   Albums,
-  Playlists,
-  PlaylistSongs,
+  Playlist,
+  PlaylistSong,
 } = require("../../db/models");
 
 // deletes playlist by id
 router.delete("/:playlistId", restoreUser, requireAuth, async (req, res, next) => {
   const { playlistId } = req.params;
-  const selectedPlaylist = await Playlists.findByPk(playlistId);
+  const selectedPlaylist = await Playlist.findByPk(playlistId);
 
   if (!selectedPlaylist) {
     res.status(404);
@@ -34,8 +34,8 @@ router.delete("/:playlistId", restoreUser, requireAuth, async (req, res, next) =
 router.post("/:playlistId", restoreUser, requireAuth, async (req, res, next) => {
   const { songId } = req.body;
   const { playlistId } = req.params;
-  const selectedSong = await Songs.findByPk(songId);
-  const selectedPlaylist = await Playlists.findByPk(playlistId);
+  const selectedSong = await Song.findByPk(songId);
+  const selectedPlaylist = await Playlist.findByPk(playlistId);
 
   if (!selectedSong) {
     res.status(404);
@@ -49,7 +49,7 @@ router.post("/:playlistId", restoreUser, requireAuth, async (req, res, next) => 
   if (selectedPlaylist.userId === req.user.id) {
     await selectedPlaylist.addSong(selectedSong);
 
-    const addedPlaylistSong = await PlaylistSongs.findOne({
+    const addedPlaylistSong = await PlaylistSong.findOne({
       where: { songId },
       order: [["createdAt"]],
       attributes: ["id", "playlistId", "songId"],
@@ -68,7 +68,7 @@ router.post("/:playlistId", restoreUser, requireAuth, async (req, res, next) => 
 router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
     const { name, image } = req.body;
     const { playlistId } = req.params;
-    const editPlaylist = await Playlists.findByPk(playlistId);
+    const editPlaylist = await Playlist.findByPk(playlistId);
 
     if(!editPlaylist){
         res.status(404);
@@ -88,13 +88,13 @@ router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
 
 // get playlist by id
 router.get("/:playlistId", async (req, res, next) => {
-  console.log(await Playlists.findAll(), "Hi playlist")
+  console.log(await Playlist.findAll(), "Hi playlist")
   const { playlistId } = req.params;
-  const playlist = await Playlists.findOne({
+  const playlist = await Playlist.findOne({
     where: { id: playlistId },
     include: [
       {
-        model: Songs,
+        model: Song,
         through: {
           attributes: [],
         },
@@ -117,7 +117,7 @@ router.get("/:playlistId", async (req, res, next) => {
 router.post("/", restoreUser, requireAuth, async (req, res, next) => {
   const { name, image } = req.body;
 
-  const createdPlaylist = await Playlists.create({
+  const createdPlaylist = await Playlist.create({
     userId: req.user.id,
     name,
     previewImage: image,

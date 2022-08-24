@@ -1,7 +1,7 @@
 const express = require("express");
 
 const { setTokenCookie, restoreUser, requireAuth } = require("../../utils/auth");
-const { User, Songs, Albums, Playlists } = require("../../db/models");
+const { User, Song, Album, Playlist } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
@@ -28,7 +28,7 @@ const validateSignup = [
 router.get('/playlists',
 restoreUser, requireAuth,
     async (req, res, next) => {
-        const playlists = await Playlists.findAll({
+        const playlists = await Playlist.findAll({
             where: {
                 userId: req.user.id
             }
@@ -40,7 +40,7 @@ restoreUser, requireAuth,
 router.get('/albums',
 restoreUser, requireAuth,
     async (req, res, next) => {
-        const albums = await Albums.findAll({
+        const albums = await Album.findAll({
             where: {
                 userId: req.user.id
             }
@@ -52,7 +52,7 @@ restoreUser, requireAuth,
 router.get('/songs',
 restoreUser, requireAuth,
     async (req, res, next) => {
-        const songs = await Songs.findAll({
+        const songs = await Song.findAll({
             where: {
                 userId: req.user.id
             }
