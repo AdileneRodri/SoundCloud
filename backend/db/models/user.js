@@ -45,10 +45,10 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      User.hasMany(models.Albums, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
-      User.hasMany(models.Comments, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
-      User.hasMany(models.Playlists, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
-      User.hasMany(models.Songs, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Album, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
+      User.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
+      User.hasMany(models.Playlist, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
+      User.hasMany(models.Song, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
     }
   };
   
