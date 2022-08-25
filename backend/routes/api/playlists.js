@@ -66,7 +66,7 @@ router.post("/:playlistId", restoreUser, requireAuth, async (req, res, next) => 
 
 // edit playlist
 router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
-    const { name, image } = req.body;
+    const { name, previewImage } = req.body;
     const { playlistId } = req.params;
     const editPlaylist = await Playlist.findByPk(playlistId);
 
@@ -75,10 +75,20 @@ router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
         return res.json({ "message": "Playlist does not exist", "statusCode": 404 });
     }
 
+    if (!name) {
+      const err = new Error("Validation Error");
+      err.status = 400;
+      err.message = "Validation Error";
+      err.errors = {
+        name: "Playlist name is required"
+      }
+      return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
+    }
+
    if(editPlaylist.userId === req.user.id){
         editPlaylist.update({
             name,
-            previewImage: image
+            previewImage
         });
         return res.json(editPlaylist);
     } else {
@@ -115,14 +125,24 @@ router.get("/:playlistId", async (req, res, next) => {
 
 // create new playlist
 router.post("/", restoreUser, requireAuth, async (req, res, next) => {
-  const { name, image } = req.body;
+  const { name, previewImage } = req.body;
 
+  
   const createdPlaylist = await Playlist.create({
     userId: req.user.id,
     name,
-    previewImage: image,
+    previewImage,
   });
-
+  
+  if (!createdPlaylist.name) {
+    const err = new Error("Validation Error");
+    err.status = 400;
+    err.message = "Validation Error";
+    err.errors = {
+      name: "Playlist name is required"
+    }
+    return res.status(400).json({ message: err.message, statusCode: err.status, errors: err.errors });
+  }
   return res.json(createdPlaylist);
 });
 

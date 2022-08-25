@@ -1208,8 +1208,8 @@ Creates and returns a new playlist.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: 'api/playlists'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1261,8 +1261,8 @@ Add a song to a playlist specified by the playlist's id.
 * Require Authentication: true
 * Require proper authorization: Playlist must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: '/api/playlists/:playlistId'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1373,8 +1373,8 @@ Updates and returns an existing playlist.
 * Require Authentication: true
 * Require proper authorization: Playlist must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: '/api/playlists/:playlistId'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1439,8 +1439,8 @@ Deletes an existing playlist.
 * Require Authentication: true
 * Require proper authorization: Playlist must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: '/api/playlists/:playlistId'
   * Body: none
 
 * Successful Response

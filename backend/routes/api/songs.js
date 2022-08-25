@@ -266,7 +266,7 @@ router.get("/", async (req, res, next) => {
     if (createdAt) where.createdAt = createdAt;
   }
 
-  return res.json({ Song: allSongs });
+  return res.json({ Songs: allSongs });
 });
 
 module.exports = router;
