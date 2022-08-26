@@ -349,7 +349,7 @@ Returns the details of a song specified by its id.
       "statusCode": 404
     }
     ```
-
+    
 ## Create a Song for an Album based on the Album's id
 
 Creates and returns a new song.
@@ -1506,8 +1506,8 @@ Return songs filtered by query parameters.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: '/api/songs'
   * Query Parameters
     * page: integer, minimum: 0, maximum: 10, default: 0
     * size: integer, minimum: 0, maximum: 20, default: 20

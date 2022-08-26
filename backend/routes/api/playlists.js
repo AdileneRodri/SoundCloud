@@ -125,13 +125,13 @@ router.get("/:playlistId", async (req, res, next) => {
 
 // create new playlist
 router.post("/", restoreUser, requireAuth, async (req, res, next) => {
-  const { name, previewImage } = req.body;
+  const { name, imageUrl } = req.body;
 
   
   const createdPlaylist = await Playlist.create({
     userId: req.user.id,
     name,
-    previewImage,
+    previewImage: imageUrl,
   });
   
   if (!createdPlaylist.name) {

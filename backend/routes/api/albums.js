@@ -7,7 +7,7 @@ const { restoreUser, requireAuth } = require("../../utils/auth.js");
 // create a song using album id
 router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) => {
   const { albumId } = req.params;
-  const { title, description, url, image } = req.body;
+  const { title, description, url, imageUrl } = req.body;
   const album = await Album.findByPk(albumId);
   
     if (!album) {
@@ -36,7 +36,7 @@ router.post("/:albumId/songs", restoreUser, requireAuth, async (req, res, next) 
       title,
       description,
       url,
-      previewImage: image,
+      previewImage: imageUrl,
     });
 
     return res.json(song);

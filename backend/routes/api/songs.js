@@ -39,7 +39,7 @@ router.put(
   restoreUser,
   requireAuth,
   async (req, res, next) => {
-    const { comment } = req.body;
+    const { body } = req.body;
     const { commentId } = req.params;
     const editComment = await Comment.findByPk(commentId);
 
@@ -48,7 +48,7 @@ router.put(
       return res.json({ message: "Comment does not exist", statusCode: 404 });
     }
 
-    if (!comment) {
+    if (!body) {
       res.status(400);
       return res.json({
         message: "Validation Error",
@@ -61,7 +61,7 @@ router.put(
 
     if (editComment.userId === req.user.id) {
       editComment.update({
-        body: comment,
+        body,
       });
       return res.json(editComment);
     } else {
@@ -102,7 +102,8 @@ router.post(
   restoreUser,
   requireAuth,
   async (req, res, next) => {
-    const { comment } = req.body;
+    // change comment to body
+    const { body } = req.body;
     const { songId } = req.params;
     const selectedSong = await Song.findByPk(songId);
 
@@ -111,7 +112,7 @@ router.post(
       return res.json({ message: "Song does not exist", statusCode: 404 });
     }
 
-    if (!comment) {
+    if (!body) {
       const err = new Error("Validation Error");
       err.status = 400;
       err.message = "Validation Error";
@@ -130,7 +131,7 @@ router.post(
     const createdComment = await Comment.create({
       userId: req.user.id,
       songId,
-      body: comment,
+      body
     });
 
     return res.json(createdComment);
@@ -165,7 +166,7 @@ router.get("/:songId", async (req, res, next) => {
 
 // edit song by id
 router.put("/:songId", restoreUser, requireAuth, async (req, res, next) => {
-  const { title, description, url, image } = req.body;
+  const { title, description, url, imageUrl } = req.body;
   const { songId } = req.params;
   const editSong = await Song.findByPk(songId);
 
@@ -196,7 +197,7 @@ router.put("/:songId", restoreUser, requireAuth, async (req, res, next) => {
       title,
       description,
       url,
-      previewImage: image,
+      previewImage: imageUrl,
     });
     return res.json(editSong);
   } else {
@@ -233,7 +234,7 @@ router.get("/", async (req, res, next) => {
   if (page) page = parseInt(page);
   if (size) size = parseInt(size);
 
-  let where = {}; // search filters (title, createdAt)
+  let where = {};
   let pag = {};
 
   if (!page) page = 0;
@@ -266,7 +267,7 @@ router.get("/", async (req, res, next) => {
     if (createdAt) where.createdAt = createdAt;
   }
 
-  return res.json({ Songs: allSongs });
+  return res.json({ Songs: allSongs, page, size });
 });
 
 module.exports = router;
