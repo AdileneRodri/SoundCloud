@@ -1312,7 +1312,7 @@ Add a song to a playlist specified by the playlist's id.
       "statusCode": 404
     }
     ```
-<!-- Test on heroku -->
+
 ## Get details of a Playlist from an id
 
 Returns the details of a playlist specified by its id.
