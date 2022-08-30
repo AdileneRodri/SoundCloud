@@ -128,7 +128,7 @@ router.delete("/:albumId", restoreUser, requireAuth, async (req, res, next) => {
 
 // Creates album
 router.post("/", restoreUser, requireAuth, async (req, res, next) => {
-  const { title, description, previewImage } = req.body;
+  const { title, description, imageUrl } = req.body;
 
   if (!title) {
     const err = new Error("Validation Error");
@@ -144,7 +144,7 @@ router.post("/", restoreUser, requireAuth, async (req, res, next) => {
     userId: req.user.id,
     title,
     description,
-    previewImage
+    previewImage: imageUrl,
   });
 
   return res.json(newAlbum);
