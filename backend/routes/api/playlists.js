@@ -66,7 +66,7 @@ router.post("/:playlistId", restoreUser, requireAuth, async (req, res, next) => 
 
 // edit playlist
 router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
-    const { name, previewImage } = req.body;
+    const { name, imageUrl } = req.body;
     const { playlistId } = req.params;
     const editPlaylist = await Playlist.findByPk(playlistId);
 
@@ -88,7 +88,7 @@ router.put('/:playlistId', restoreUser, requireAuth, async (req, res, next) => {
    if(editPlaylist.userId === req.user.id){
         editPlaylist.update({
             name,
-            previewImage
+            previewImage: imageUrl,
         });
         return res.json(editPlaylist);
     } else {
