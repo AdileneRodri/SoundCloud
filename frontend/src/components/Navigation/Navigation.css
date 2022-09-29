@@ -1,0 +1,50 @@
+.header {
+    background: #000;
+    font-family: Interstate,Lucida Grande,Arial,sans-serif;
+    font-weight: 100;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 100%;
+    height: 46px;
+    transform: translateZ(0);
+    -webkit-font-smoothing: subpixel-antialiased;
+    /* background: #fff; */
+    /* background: var(--background-surface-color); */
+    transition: height .2s ease-in-out;
+    position: fixed;
+    list-style: none;
+    margin: 0;
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #ccc;
+    text-decoration: none;
+    text-align: center;
+}
+
+.nav-menu .icon{
+    display: inline-block;
+    padding: 12px 0;
+    height: 46px;
+    box-sizing: border-box;
+    text-align: center;
+    width: 104px;
+    border-right: 1px solid #111;
+}
+
+a, a:visited {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.icon {
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+    width: 46px;
+    height: 46px;
+    cursor: pointer;
+}
+
+
+
