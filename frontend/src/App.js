@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 // import LoginFormPage from './components/LoginFormPage';
 // import SignupFormPage from "./components/SignupFormPage";
+import SongList from './components/SongFormModal/SongList';
 import Navigation from "./components/Navigation";
 import * as sessionActions from "./store/session";
 
@@ -18,6 +19,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path='/'>
+            <SongList />
+          </Route>
           {/* <Route path="/login">
             <LoginFormPage />
           </Route> */}

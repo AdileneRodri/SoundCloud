@@ -25,18 +25,6 @@ function Navigation({ isLoaded }) {
 
   return (
     <ul role='banner' className="header">
-      {/* <li className="nav-menu">
-        <NavLink exact to="/">
-          <a href="" className="icon">
-            <img
-              className="icon"
-              src="https://a-v2.sndcdn.com/assets/images/peace-cloud-28ad0963.svg"
-              alt=""
-            />
-          </a>
-        </NavLink>
-        {isLoaded && sessionLinks}
-      </li> */}
       <li>
         <NavLink exact to="/">
           <div id='home-btn'>
